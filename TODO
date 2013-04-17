@@ -1,0 +1,7 @@
+Potential ideas for future tools:
+* Frequent transit network extractor (partially done)
+* Interline finder (to enhance above)
+* Transfer cluster finder
+* Network graph
+* Takt optimizer (to optimize transfers)
+* Something to join up multiple GTFS datasets from different agencies
