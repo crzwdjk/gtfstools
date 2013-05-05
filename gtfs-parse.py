@@ -24,6 +24,8 @@ CREATE TABLE trips (trip_id VARCHAR PRIMARY KEY, block_id VARCHAR,
                     service_id VARCHAR REFERENCES calendar(service_id),
                     shape_id INTEGER);
 
+CREATE INDEX trip_route_idx ON trips (route_id);
+
 CREATE TABLE stops (zone_id INTEGER,
                     stop_id VARCHAR PRIMARY KEY, stop_desc VARCHAR,
                     stop_name VARCHAR, location_type INTEGER,
