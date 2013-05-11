@@ -100,10 +100,7 @@ def parse_files(db, files):
         showcols = [col for col in cols if col in stdcols[table]]
 
         # special case to store stop location in the spatial column
-        if table == "stops":
-            (lat, lon) = (cols.index("stop_lat"), cols.index("stop_lon"))
-            del showcols[lat]
-            del showcols[lon - 1]
+        if table == "stops" and "stop_lat" in cols and "stop_lon" in cols:
             extracols = "location, "
             extravals = "MakePoint(:stop_lat,:stop_lon, 4326), "
         else:
