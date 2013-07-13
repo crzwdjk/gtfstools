@@ -38,13 +38,44 @@ def tsort(trips):
         newtrips.append(earliesttrip)
     return newtrips
 
-# return the set of stops for this trip.
+# return the set of stops for this set of trips.
 def trip_stops(trips):
     stops = set()
     for trip in trips:
         for st, tm in trip:
             stops.add(st)
     return stops
+
+# parse "HH:MM:SS" into minutes.
+def parse_time(t):
+    (h, m, s) = map(lambda x: int(x), t.split(":"))
+    return h * 60 + m + s / 60.0
+
+# difference between two times (in minutes)
+def timediff(t1, t2):
+    return parse_time(t2) - parse_time(t1)
+
+def end_after(trip, time):
+    return timediff(trip[-1][1], time) <= 0
+
+def start_before(trip, time):
+    return timediff(trip[0][1], time) >= 0
+
+# return all trips that end after start_time and start before end_time
+def tfilter(trips, start_time, end_time):
+    return list(filter(lambda t: end_after(t, start_time) and start_before(t, end_time),
+                  trips))
+
+def headways(trips):
+    ret = {}
+    for stop in trip_stops(trips):
+        times = []
+        for trip in trips:
+            for st, time in trip:
+                if st == stop:
+                    times.append(time)
+        ret[stop] = list(map(lambda x: timediff(x[0], x[1]), zip(times[:-1], times[1:])))
+    return ret
 
 # check whether two routes "match", i.e. are going in the same direction
 # through something like the same set of stops. a run of 3 matching stops
