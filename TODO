@@ -1,7 +1,10 @@
 Potential ideas for future tools:
-* Frequent transit network extractor (partially done)
-* Interline finder (to enhance above)
+* Interline finder (to enhance FTN extractor)
 * Transfer cluster finder
 * Network graph
+* System mapper (and FTN mapper)
+* Schematic mapper
 * Takt optimizer (to optimize transfers)
 * Something to join up multiple GTFS datasets from different agencies
+* Web timetables
+* Network explorer (relies on timetables, mapping)
