@@ -140,8 +140,6 @@ def print_tt_trips_down(db, route_short_name, route_long_name, days, direction):
         trips_per_page = (page_width - target_len) // 8
         for i in range(0, len(trips), trips_per_page):
             for stop_id in stop_ids:
-                if stop_id == '7':
-                    raise Exception("WTF!")
                 out = pad_to(stop_name_map[stop_id], target_len)
                 for trip in trips[i:i + trips_per_page]:
                     t = "-"
