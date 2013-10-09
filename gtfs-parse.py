@@ -102,7 +102,7 @@ def parse_files(db, files):
         # special case to store stop location in the spatial column
         if table == "stops" and "stop_lat" in cols and "stop_lon" in cols:
             extracols = "location, "
-            extravals = "MakePoint(:stop_lat,:stop_lon, 4326), "
+            extravals = "MakePoint(:stop_lon,:stop_lat, 4326), "
         else:
             extracols = extravals = ""
 
