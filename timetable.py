@@ -6,6 +6,7 @@
 
 import sqlite3, sys
 import triptools
+import routetools
 
 # round up v to a multiple of "to"
 def roundup(v, to):
@@ -14,17 +15,6 @@ def roundup(v, to):
 # pad string s to length "to" with spaces
 def pad_to(s, to):
     return s + " " * (to - len(s))
-
-# get the list of (route_id, route_short_name, route_long_name) that are
-# available on the given date
-def get_routes(db, date):
-    c = db.cursor()
-    c.execute("SELECT DISTINCT route_id, route_short_name, route_long_name "
-              "FROM routes JOIN trips USING (route_id) JOIN calendar USING (service_id) "
-              "WHERE start_date <= ? AND ? <= end_date", (date, date))
-    routes = c.fetchall()
-    c.close()
-    return routes
 
 # return a sorting key for a route number. Route numbers are broken down
 # into a prefix, numeric part, and suffix, in that order of significance
@@ -162,7 +152,7 @@ def main():
 
     print("Date ", date)
     if sys.argv[2] == "--list":
-        routes = get_routes(db, date)
+        routes = route_tools.get_routes(db, date)
         print_routes(routes)
     else:
         route_short_name = sys.argv[2]

@@ -1,4 +1,5 @@
 # triptools - a set of tools for dealing with "trip" structures.
+import routetools
 
 
 # just perl's cmp operator, needed for sorting
@@ -130,20 +131,14 @@ def classify_harder(classes):
                 break
     return classes
 
-
 # get all the trips for the given route at the given date.
 # returns a hash of (days) => [ trip ] where the list of trips
 # has them classified by direction.
 def route_trips(db, route, date):
-    weekdays = []
+    weekdays = routetools.get_service_days(db, route)
     result = {}
     c = db.cursor()
     c1 = db.cursor()
-    c.execute("""SELECT DISTINCT monday, tuesday, wednesday, thursday, friday, saturday, sunday
-                 FROM trips JOIN calendar USING (service_id) WHERE route_id = ? """, (route,))
-    # TODO: check that weekdays are non-overlapping
-    for row in c:
-        weekdays.append(tuple(row))
     for wd in weekdays:
         classes = []
         result[wd] = []

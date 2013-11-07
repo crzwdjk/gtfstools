@@ -6,17 +6,6 @@
 import sqlite3, sys
 import triptools
 
-# get the list of (route_id, route_short_name) that are available on
-# the given date
-def get_routes(db, date):
-    c = db.cursor()
-    c.execute("SELECT DISTINCT route_id, route_short_name "
-              "FROM routes JOIN trips USING (route_id) JOIN calendar USING (service_id) "
-              "WHERE start_date <= ? AND ? <= end_date", (date, date))
-    routes = c.fetchall()
-    c.close()
-    return routes
-
 # Does this set of days contain any weekdays?
 def has_weekdays(days):
     return days[0] or days[1] or days[2] or days[3] or days[4]
@@ -106,7 +95,7 @@ def main():
     date = db.execute("SELECT max(end_date) FROM calendar").fetchone()[0]
     routes = get_routes(db, date)
 
-    for (route, route_name) in routes:
+    for (route, route_name, long_name) in routes:
         print("Checking route", route_name)
         rt = triptools.route_trips(db, route, date)
         if is_frequent(rt):
