@@ -76,7 +76,8 @@ def ducktype(val):
         if str(fv) == val:
             return fv
     except ValueError:
-        return val
+        pass
+    return val
 
 # returns a mapping of table name to filehandle
 def open_files():
