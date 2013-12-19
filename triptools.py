@@ -1,6 +1,19 @@
 # triptools - a set of tools for dealing with "trip" structures.
 import routetools
 
+class Trip:
+    def __init__(self, trip_id, stops):
+        self.stoplist = stops
+        self.id = trip_id
+
+    def __getitem__(self, i):
+        return self.stoplist[i]
+
+    def __len__(self):
+        return len(self.stoplist)
+
+    def __repr__(self):
+        return "Trip " + str(trip_id) + repr(self.stoplist)
 
 # just perl's cmp operator, needed for sorting
 def cmp(a, b):
