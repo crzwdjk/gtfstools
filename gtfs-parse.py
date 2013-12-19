@@ -3,7 +3,9 @@
 import sqlite3, csv
 
 schema = """
-SELECT load_extension('/usr/lib/libspatialite.so.3');
+PRAGMA synchronous = 0;
+
+SELECT load_extension('/usr/local/lib/libspatialite.so.5');
 SELECT InitSpatialMetaData();
 
 CREATE TABLE calendar (service_id VARCHAR PRIMARY KEY,
