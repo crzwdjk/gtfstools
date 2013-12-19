@@ -152,7 +152,7 @@ def main():
 
     print("Date ", date)
     if sys.argv[2] == "--list":
-        routes = route_tools.get_routes(db, date)
+        routes = routetools.get_routes(db, date)
         print_routes(routes)
     else:
         route_short_name = sys.argv[2]
@@ -162,7 +162,7 @@ def main():
                           WHERE route_short_name = ? AND start_date <= ? AND ? <= end_date""",
                           (route_short_name, date, date))
         l = c.fetchall()
-        if len(l) < 1:
+        if len(l) != 1:
             c = db.execute("""SELECT DISTINCT route_id, route_long_name
                           FROM routes JOIN trips USING (route_id)
                                       JOIN calendar USING (service_id)
