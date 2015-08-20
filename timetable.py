@@ -120,6 +120,8 @@ def print_tt_trips_down(db, route_short_name, route_long_name, days, direction):
     print("%s: %s (%s)" % (route_short_name, route_long_name,
                            format_days(days)))
     for trips in direction:
+        if len(trips) == 0:
+            continue
         stops = triptools.trip_stops(trips)
         stop_name_map = get_stop_names(db, stops)
         trips = triptools.tsort(trips)
