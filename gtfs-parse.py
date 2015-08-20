@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sqlite3, csv
+import sqlite3, csv, sys, os
 
 schema = """
 PRAGMA synchronous = 0;
@@ -125,6 +125,8 @@ def parse_files(db, files):
     cur.close()
 
 def main():
+    if len(sys.argv) > 1:
+        os.chdir(sys.argv[1])
     db = sqlite3.connect('gtfs.db')
     files = open_files()
     create_tables(db)
