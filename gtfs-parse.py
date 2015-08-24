@@ -15,6 +15,9 @@ CREATE TABLE calendar (service_id VARCHAR PRIMARY KEY,
                        thursday BOOLEAN, friday BOOLEAN, saturday BOOLEAN,
                        sunday BOOLEAN);
 
+CREATE TABLE calendar_dates (service_id VARCHAR REFERENCES calendar (service_id),
+                             date VARCHAR, exception_type INTEGER);
+
 CREATE TABLE routes (route_long_name VARCHAR, route_type INTEGER,
                      route_text_color VARCHAR, route_color VARCHAR,
                      agency_id VARCHAR, route_id VARCHAR PRIMARY KEY,
@@ -50,6 +53,7 @@ CREATE INDEX stop_time_idx ON stop_times (trip_id, stop_sequence);
 stdcols = {
     "calendar": ("service_id", "start_date", "end_date",
                  "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"),
+    "calendar_dates": ("service_id", "date", "exception_type"),
     "routes": ("route_long_name", "route_type", "route_text_color", "route_color", "agency_id",
                "route_id", "route_desc", "route_short_name"),
     "trips": ("trip_id", "block_id", "route_id", "direction_id", "trip_headsign",
@@ -86,6 +90,7 @@ def ducktype(val):
 def open_files():
     files = {}
     files["calendar"] = open("calendar.txt", newline='')
+    files["calendar_dates"] = open("calendar_dates.txt", newline='')
     files["routes"] = open("routes.txt", newline='')
     files["trips"] = open("trips.txt", newline='')
     files["stop_times"] = open("stop_times.txt", newline='')
