@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sqlite3, csv, sys, os
+import analyze
 
 schema = """
 PRAGMA synchronous = 0;
@@ -22,7 +23,7 @@ CREATE TABLE routes (route_long_name VARCHAR, route_type INTEGER,
 
 CREATE TABLE trips (trip_id VARCHAR PRIMARY KEY, block_id VARCHAR,
                     route_id VARCHAR REFERENCES routes(route_id),
-                    direction_id VARCHAR, trip_headsign INTEGER,
+                    direction_id INTEGER, trip_headsign INTEGER,
                     service_id VARCHAR REFERENCES calendar(service_id),
                     shape_id INTEGER);
 
@@ -131,6 +132,7 @@ def main():
     files = open_files()
     create_tables(db)
     parse_files(db, files)
+    analyze.analyze(db)
     db.close()
 
 if __name__ == "__main__":

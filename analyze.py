@@ -6,7 +6,9 @@
 segments_sql = """
 CREATE TABLE segments AS
 SELECT
-    st1.stop_id s1, st2.stop_id s2, trips.route_id, count(*) ntrips
+    st1.stop_id s1, st2.stop_id s2,
+    trips.route_id route_id, count(*) ntrips,
+    trips.direction_id direction_id
 FROM
     stop_times st1, stop_times st2, trips
 WHERE
@@ -14,7 +16,7 @@ WHERE
     AND st1.stop_sequence + 1 = st2.stop_sequence
     AND st1.trip_id = trips.trip_id
 GROUP BY
-    s1, s2, route_id
+    s1, s2, route_id, direction_id
 """
 
 def analyze(db):
