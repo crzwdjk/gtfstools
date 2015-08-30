@@ -13,8 +13,15 @@ FROM
     stop_times st1, stop_times st2, trips
 WHERE
     st1.trip_id = st2.trip_id
-    AND st1.stop_sequence + 1 = st2.stop_sequence
     AND st1.trip_id = trips.trip_id
+    AND st1.stop_sequence < st2.stop_sequence
+    AND NOT EXISTS (
+        SELECT 1 FROM stop_times st3
+        WHERE
+            st3.trip_id = st1.trip_id
+            AND st1.stop_sequence < st3.stop_sequence
+            AND st3.stop_sequence < st2.stop_sequence
+    )
 GROUP BY
     s1, s2, route_id, direction_id
 """
