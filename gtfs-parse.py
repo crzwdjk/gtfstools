@@ -121,7 +121,10 @@ def parse_files(db, files):
         query = "INSERT INTO " + table + colstmt + " VALUES" + valstmt
 
         try:
-            cur.executemany(query, map(lambda line: dict(zip(cols, line)), infile))
+            cur.executemany(query,
+                            map(lambda line: dict(zip(cols,
+                                                      map(ducktype,line))),
+                                infile))
         except Exception:
             print(query)
             print(v)
